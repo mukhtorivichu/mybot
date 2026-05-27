@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stars & Premium Shop</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root { --main-color: #3390ec; --success-color: #248b65; --bg-card: #ffffff; }
+        body { font-family: sans-serif; background: var(--tg-theme-bg-color, #f4f6fa); color: var(--tg-theme-text-color, #000); margin:0; padding:15px; }
+        .page { display: none; } .active { display: block; }
+        .card { background: var(--tg-theme-secondary-bg-color, var(--bg-card)); border-radius: 12px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .btn { background: var(--main-color); color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        
+        /* Admin Panel Rangli Stil */
+        .admin-box { background: #1e1e2e; color: #cdd6f4; border-radius: 15px; padding: 20px; text-align: left; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .admin-title { color: #f5c2e7; font-size: 20px; font-weight: bold; margin-bottom: 15px; border-bottom: 1px solid #45475a; padding-bottom: 5px; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .stat-card { padding: 12px; border-radius: 8px; font-weight: bold; text-align: center; }
+        .stat-blue { background: #89b4fa; color: #11111b; }
+        .stat-green { background: #a6e3a1; color: #11111b; }
+        .order-item { background: #313244; padding: 10px; border-radius: 6px; margin-top: 8px; border-left: 4px solid #fab387; }
+    </style>
+</head>
+<body>
+
+    <div id="shopPage" class="page active">
+        <h3 style="color: var(--main-color);">💎 Premium & Stars Do'koni</h3>
+        <div class="card">
+            <div><b>Telegram Premium (3 Oy)</b><br><small style="color:var(--success-color)">120,000 so'm</small></div>
+            <button class="btn" onclick="sendOrder('Premium 3 Oy', 120000)">Sotib olish</button>
+        </div>
+        <div class="card">
+            <div><b>Telegram Premium (12 Oy)</b><br><small style="color:var(--success-color)">320,000 so'm</small></div>
+            <button class="btn" onclick="sendOrder('Premium 12 Oy', 320000)">Sotib olish</button>
+        </div>
+        <div class="card">
+            <div><b>⭐ 500 Telegram Stars</b><br><small style="color:var(--success-color)">140,000 so'm</small></div>
+            <button class="btn" onclick="sendOrder('500 Stars', 140000)">Sotib olish</button>
+        </div>
+        <button class="btn" id="adminBtn" style="background:#45475a; width:100%; margin-top:20px; display:none;" onclick="openAdmin()">⚙️ Admin Panelga kirish</button>
+    </div>
+
+    <div id="adminPage" class="page">
+        <div class="admin-box">
+            <div class="admin-title">📊 Rangli Admin Panel</div>
+            <div class="stat-grid">
+                <div class="stat-card stat-blue">Kassa<br>460,000 uzs</div>
+                <div class="stat-card stat-green">Buyurtmalar<br>3 ta faol</div>
+            </div>
+            <div style="font-weight:bold; color:#f9e2af;">Oxirgi buyurtmalar:</div>
+            <div class="order-item">📌 @Sattorovv - Premium 12 Oy<br><small style="color:#a6e3a1">To'lov: Kutilmoqda</small></div>
+            <div class="order-item">📌 @user123 - 500 Stars<br><small style="color:#a6e3a1">To'lov: Tekshirilgan</small></div>
+            <button class="btn" style="background:#f38ba8; width:100%; margin-top:20px;" onclick="openShop()">⬅️ Do'konga qaytish</button>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready(); tg.expand();
+// Adminni Telegram ID orqali aniqlash (O'z ID-ingizni yozing)
+        const ADMIN_TELEGRAM_ID = 123456789; 
+        if (tg.initDataUnsafe.user && tg.initDataUnsafe.user.id === ADMIN_TELEGRAM_ID) {
+            document.getElementById('adminBtn').style.display = 'block';
+        }
+
+        function sendOrder(prod, price) {
+            tg.sendData(JSON.stringify({ product: prod, price: price }));
+            tg.close();
+        }
+        function openAdmin() {
+            document.getElementById('shopPage').classList.remove('active');
+            document.getElementById('adminPage').classList.add('active');
+        }
+        function openShop() {
+            document.getElementById('adminPage').classList.remove('active');
+            document.getElementById('shopPage').classList.add('active');
+        }
+    </script>
+</body>
+</html>
